@@ -46,7 +46,7 @@ export default function LogInFom(){
             const user = userCredential.user;
             setSuccess("log in sucessful")
             setTimeout(()=>{
-                router.push("/")
+                router.push("/dashboard")
             }, 200)
         })
         .catch((error) => {
