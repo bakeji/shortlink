@@ -745,6 +745,15 @@ line-height: 24px;
     align-items: center;
     justify-content: center;
 }
+.dis{
+    cursor: not-allowed;
+}
+.all{
+    cursor: pointer;
+}
+.err{
+    color:red
+}
 
 
 

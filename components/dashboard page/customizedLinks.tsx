@@ -24,7 +24,12 @@ export default function CustomizeUrl(){
             url: '',
             customName: ''
         })
+        const [error, setError] = useState('')
       
+            // check for empty values
+            const IsEmpty=
+        Object.values(setUrlInfo).some(
+            (value) => !value)
 
         // handleChanege function
         function handleChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -33,18 +38,22 @@ export default function CustomizeUrl(){
                 ...prev,
                 [e.target.name]: e.target.value
             }
+
            })
+           console.log(IsEmpty)
            
         }
+        
 
             // create customized url function
         async function CreateCustomizedUrl():Promise<void>{
-            setLoading(true)
-            if(urlInfo.url === "" && urlInfo.customName === ""){
+            console.log(IsEmpty)
+            if(IsEmpty !== false){
+                setLoading(true)
             const options = {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer 7e4ffceb7305af92a548ebf6ae19c489',
+                    'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -66,6 +75,9 @@ export default function CustomizeUrl(){
                 setLoading(false)
             }
              }
+             else{
+                setError('Please fill in all fields')
+             }
        
     }
     // clear input fields after closing modal
@@ -85,6 +97,7 @@ export default function CustomizeUrl(){
                     setCopied(true)
                 }, 1000)
     }
+   
       
         return (
           <> 
@@ -97,6 +110,7 @@ export default function CustomizeUrl(){
                 <ModalCloseButton />
                 <ModalBody>
                     <div className="shrt-url">
+                        { !IsEmpty && <p className='err'> {error} </p>}
                         <div>
                             <label>Enter the  URL you want to customize</label>
                             <input
@@ -143,7 +157,7 @@ export default function CustomizeUrl(){
       
                 <ModalFooter>
                     {newUrl === "" &&
-                  <Button disabled={urlInfo.url === "" && urlInfo.customName === ""} onClick={CreateCustomizedUrl} colorScheme='blue' mr={3}>
+                  <Button  onClick={CreateCustomizedUrl} colorScheme='blue' mr={3}>
                     {loading? <Spinner />: "Customize"}
                   </Button>
 }

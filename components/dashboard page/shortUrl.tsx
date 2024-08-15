@@ -8,19 +8,81 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    useDisclosure
+    useDisclosure,
+    Spinner
   } from '@chakra-ui/react'
   import Image from 'next/image'
+import { useState } from 'react'
+
+
 
 export default function ShortenUrl(){
+
+    //   states
+    const [shortUrl, setShortUrl]= useState("")
+    const [loading, setLoading]= useState(false)
+    const [url, setUrl]=useState("")
+    const [copied, setCopied] = useState(false)
+    const { isOpen, onOpen, onClose } = useDisclosure() 
+
+    // handleChanege function
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>){
+        setUrl(e.target.value)            
+     }
+
+      // clear input fields after closing modal
+    function clearInputFields(){
+        onClose()
+        setShortUrl("")
+        setUrl("")
+
+    }
+     // copy to clipboard function
+     function copyToClipboard(){
+        navigator.clipboard.writeText(shortUrl)
+                setTimeout(()=>{
+                    setCopied(true)
+                }, 1000)
+    }
+
+    // shorten url function
+    async function CreateShortUrl():Promise<void>{
+        setLoading(true)
+        if(url !==""){
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "url": url
+            }),
+        };
+    
+        try {
+            const response = await fetch('/api/url/add',  options);
+            const data = await response.json()
+            setShortUrl(data.shorturl)
+            console.log(data);
+        } 
+        catch (error: any) {
+            console.log(error.message);
+        }
+        finally{
+            setLoading(false)
+        }
+         }
+   
+}
   
-        const { isOpen, onOpen, onClose } = useDisclosure()
+
       
         return (
           <>
             <Button onClick={onOpen}>  <Image src="/link1.png" alt="dashboard icon" width={16} height={20} />Shorten URL</Button>
       
-            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={clearInputFields}>
               <ModalOverlay />
               <ModalContent>
                 <ModalHeader>Shorten Your Url</ModalHeader>
@@ -28,27 +90,39 @@ export default function ShortenUrl(){
                 <ModalBody>
                     <div className="shrt-url">
                     <label>Enter the long URL you want to shorten</label>
-                    <input type='url'  placeholder="Enter URL" />
+                    <input type='url' 
+                     placeholder="Enter URL" 
+                     value={url}
+                     name="url"
+                     onChange={handleChange}
+                     />
                    
                     <div className='nw-url-cont'>
+                        {shortUrl !== "" &&
+                        <>
 
                         <div className="nw-url">
-                            <p>www.bitly.bbbbbhhhh.com</p>
+                            <p>{shortUrl}</p>
                         </div>
-                            <Button colorScheme='blue' mr={3}>
-                                copy
-                            </Button>
+                                <Button onClick={copyToClipboard} colorScheme='blue' mr={3}>
+                                    {copied? "Copied!": "Copy"}
+                                </Button>
+                                </>
+}
                     </div>
+                        
 
                  </div>
 
                 </ModalBody>
       
                 <ModalFooter>
-                  <Button colorScheme='blue' mr={3}>
-                    Shorten URL
+                {url === "" &&
+                  <Button disabled={url === ""} onClick={CreateShortUrl} colorScheme='blue' mr={3}>
+                    {loading? <Spinner />: "Shorten"}
                   </Button>
-                  <Button colorScheme='red' onClick={onClose}>Cancel</Button>
+}
+                  <Button colorScheme='red' onClick={clearInputFields}>Cancel</Button>
                 </ModalFooter>
               </ModalContent>
             </Modal>
