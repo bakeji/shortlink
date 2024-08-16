@@ -1,4 +1,5 @@
 "use client"
+import { DashboardContext } from '@/context/dash'
 import {
     Modal,
     ModalOverlay,
@@ -12,7 +13,7 @@ import {
     Spinner
   } from '@chakra-ui/react'
   import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 
 
@@ -24,6 +25,15 @@ export default function ShortenUrl(){
     const [url, setUrl]=useState("")
     const [copied, setCopied] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure() 
+    const [error, setError] = useState('')
+    const {saveUrl} = useContext(DashboardContext)
+    const opt: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+      
+
+     // check for empty fields
+     const IsEmpty=
+     Object.values(url).some(
+      (value) => !value)
 
     // handleChanege function
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -35,20 +45,21 @@ export default function ShortenUrl(){
         onClose()
         setShortUrl("")
         setUrl("")
-
+        setError("")
     }
      // copy to clipboard function
      function copyToClipboard(){
+            setCopied(true)
         navigator.clipboard.writeText(shortUrl)
                 setTimeout(()=>{
-                    setCopied(true)
+                    setCopied(false)
                 }, 1000)
     }
 
     // shorten url function
     async function CreateShortUrl():Promise<void>{
-        setLoading(true)
-        if(url !==""){
+        if(url !== ""){
+          setLoading(true)
         const options = {
             method: 'POST',
             headers: {
@@ -61,10 +72,15 @@ export default function ShortenUrl(){
         };
     
         try {
-            const response = await fetch('/api/url/add',  options);
+            const response = await fetch(' https://urlbae.com/api/url/add',  options);
             const data = await response.json()
             setShortUrl(data.shorturl)
-            console.log(data);
+            saveUrl({
+                originalUrl: url,
+                shortenedUrl: data.shorturl,
+                activity: "shorten url",
+                date: new Date().toLocaleDateString('en-US', opt) 
+            })
         } 
         catch (error: any) {
             console.log(error.message);
@@ -72,6 +88,9 @@ export default function ShortenUrl(){
         finally{
             setLoading(false)
         }
+         }
+         else{
+          setError("Please fill in all fields")
          }
    
 }
@@ -89,6 +108,9 @@ export default function ShortenUrl(){
                 <ModalCloseButton />
                 <ModalBody>
                     <div className="shrt-url">
+                      <>
+                      {url ==="" && <p className='err'> {error} </p>}
+                      </>
                     <label>Enter the long URL you want to shorten</label>
                     <input type='url' 
                      placeholder="Enter URL" 
@@ -117,8 +139,8 @@ export default function ShortenUrl(){
                 </ModalBody>
       
                 <ModalFooter>
-                {url === "" &&
-                  <Button disabled={url === ""} onClick={CreateShortUrl} colorScheme='blue' mr={3}>
+                {shortUrl ==="" &&
+                  <Button  onClick={CreateShortUrl} colorScheme='blue' mr={3}>
                     {loading? <Spinner />: "Shorten"}
                   </Button>
 }

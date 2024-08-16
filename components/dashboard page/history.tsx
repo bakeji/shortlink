@@ -1,4 +1,21 @@
+"use client"
+
+import { DashboardContext } from "@/context/dash"
+import { useContext } from "react"
+
 export default function History(){
+    const {data} =useContext(DashboardContext)
+
+    interface UrlData {
+        id: string;
+        data?:{
+        originalUrl?: string;
+        shortenedUrl?: string;
+        createdAt?: string;
+        clickCount?: number;
+        activity? : string
+        }
+    }
     return (
         <div className="history">
            
@@ -9,57 +26,19 @@ export default function History(){
                 <h2>Date</h2>
                 <h2>Status</h2>
             </div>
+            
 
             <div className="link-hist">
-                <div className="hist">
-                    <p>www.google/kkkiiiik/lkmnn.com</p>
-                    <p>Qr Code</p>
-                    <p>june 12, 2024</p>
-                    <p>Active</p>
+            {data.map((item:UrlData, index:number)=>(
+                <div key={index} className="hist">
+                    <p>{item.data?.shortenedUrl}</p>
+                    <p>{item.data?.activity}</p>
+                    <p>{item.data?.createdAt}</p>
+                    <p>0</p>
                 </div>
-
-                <div className="hist">
-                    <p>www.google/kkkiiiik/lkmnn.com</p>
-                    <p>Qr Code</p>
-                    <p>june 12, 2024</p>
-                    <p>Active</p>
-                </div>
-
-                <div className="hist">
-                    <p>www.google/kkkiiiik/lkmnn.com</p>
-                    <p>Qr Code</p>
-                    <p>june 12, 2024</p>
-                    <p>Active</p>
-                </div>
-
-                <div className="hist">
-                    <p>www.google/kkkiiiik/lkmnn.com</p>
-                    <p>Qr Code</p>
-                    <p>june 12, 2024</p>
-                    <p>Active</p>
-                </div>
-
-                <div className="hist">
-                    <p>www.google/kkkiiiik/lkmnn.com</p>
-                    <p>Qr Code</p>
-                    <p>june 12, 2024</p>
-                    <p>Active</p>
-                </div>
-
-                <div className="hist">
-                    <p>www.google/kkkiiiik/lkmnn.com</p>
-                    <p>Qr Code</p>
-                    <p>june 12, 2024</p>
-                    <p>Active</p>
-                </div>
-
-                <div className="hist">
-                    <p>www.google/kkkiiiik/lkmnn.com</p>
-                    <p>Qr Code</p>
-                    <p>june 12, 2024</p>
-                    <p>Active</p>
-                </div>
+))}
             </div>
+
         </div>
     )
 }

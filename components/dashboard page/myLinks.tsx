@@ -1,4 +1,5 @@
 "use client"
+import { DashboardContext } from '@/context/dash'
 import {
     Drawer,
     DrawerBody,
@@ -9,9 +10,25 @@ import {
     useDisclosure,
     Button
   } from '@chakra-ui/react'
+import { useContext } from 'react'
+
+ 
 
 export default function MyLinks(){
+
+ interface UrlData {
+        id: string;
+        data?:{
+        originalUrl?: string;
+        shortenedUrl?: string;
+        createdAt?: string;
+        clickCount?: number;
+        activity? : string
+        }
+    }
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const{data}= useContext(DashboardContext)
+
     return(
         <div className="my-link">
             <Button onClick={onOpen}>My Links</Button>
@@ -22,50 +39,19 @@ export default function MyLinks(){
                     <DrawerHeader>MY Links</DrawerHeader>
                     <DrawerBody>
                         <div className="links">
-                            <div className='nw-url-cont'>
+                        {data.map((id:number, item:UrlData )=>(
+                
+                            <div key={id} className='nw-url-cont'>
+                               
                                 <div className="nw-url">
-                                    <p>www.bitly.bbbbbhhhh.com</p>
+                                    <p>{item.data?.shortenedUrl
+                                    }</p>
                                 </div>
-                                    <Button colorScheme='blue' mr={3}>
+                                    {/* <Button colorScheme='blue' mr={3}>
                                         copy
-                                    </Button>
+                                    </Button> */}
                             </div>
-
-                            <div className='nw-url-cont'>
-                                <div className="nw-url">
-                                    <p>www.bitly.bbbbbhhhh.com</p>
-                                </div>
-                                    <Button colorScheme='blue' mr={3}>
-                                        copy
-                                    </Button>
-                            </div>
-
-                            <div className='nw-url-cont'>
-                                <div className="nw-url">
-                                    <p>www.bitly.bbbbbhhhh.com</p>
-                                </div>
-                                    <Button colorScheme='blue' mr={3}>
-                                        copy
-                                    </Button>
-                            </div>
-
-                            <div className='nw-url-cont'>
-                                <div className="nw-url">
-                                    <p>www.bitly.bbbbbhhhh.com</p>
-                                </div>
-                                    <Button colorScheme='blue' mr={3}>
-                                        copy
-                                    </Button>
-                            </div>
-
-                            <div className='nw-url-cont'>
-                                <div className="nw-url">
-                                    <p>www.bitly.bbbbbhhhh.com</p>
-                                </div>
-                                    <Button colorScheme='blue' mr={3}>
-                                        copy
-                                    </Button>
-                            </div>
+                        ))}   
                         </div>
                     </DrawerBody>
                 </DrawerContent>

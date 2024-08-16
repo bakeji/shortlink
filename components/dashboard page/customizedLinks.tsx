@@ -1,4 +1,5 @@
 "use client"
+import { DashboardContext } from '@/context/dash'
 import {
     Modal,
     ModalOverlay,
@@ -12,7 +13,7 @@ import {
     useDisclosure
   } from '@chakra-ui/react'
   import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 export default function CustomizeUrl(){
     // states
@@ -25,10 +26,12 @@ export default function CustomizeUrl(){
             customName: ''
         })
         const [error, setError] = useState('')
+        const {saveUrl} = useContext(DashboardContext)
+        const opt: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
       
-            // check for empty values
+            // check for empty fields
             const IsEmpty=
-        Object.values(setUrlInfo).some(
+        Object.values(urlInfo).some(
             (value) => !value)
 
         // handleChanege function
@@ -48,7 +51,7 @@ export default function CustomizeUrl(){
             // create customized url function
         async function CreateCustomizedUrl():Promise<void>{
             console.log(IsEmpty)
-            if(IsEmpty !== false){
+            if(!IsEmpty){
                 setLoading(true)
             const options = {
                 method: 'POST',
@@ -63,10 +66,15 @@ export default function CustomizeUrl(){
             };
         
             try {
-                const response = await fetch('/api/url/add',  options);
+                const response = await fetch(' https://urlbae.com/api/url/add',  options);
                 const data = await response.json()
                 setNewUrl(data.shorturl)
-                console.log(data);
+                saveUrl({
+                    originalUrl: urlInfo.url,
+                    shortenedUrl: newUrl,
+                    activity: "Customize url",
+                    date: new Date().toLocaleDateString('en-US', opt)
+                })
             } 
             catch (error: any) {
                 console.log(error.message);
@@ -88,13 +96,15 @@ export default function CustomizeUrl(){
             customName: ''
         })
         setNewUrl("")
+        setError('')
 
     }
     // copy to clipboard function
     function copyToClipboard(){
         navigator.clipboard.writeText(newUrl)
+        setCopied(true)
                 setTimeout(()=>{
-                    setCopied(true)
+                    setCopied(false)
                 }, 1000)
     }
    
@@ -110,7 +120,7 @@ export default function CustomizeUrl(){
                 <ModalCloseButton />
                 <ModalBody>
                     <div className="shrt-url">
-                        { !IsEmpty && <p className='err'> {error} </p>}
+                        {IsEmpty && <p className='err'> {error} </p>}
                         <div>
                             <label>Enter the  URL you want to customize</label>
                             <input

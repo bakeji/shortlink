@@ -99,10 +99,10 @@ export default function LogInFom(){
 
                <button disabled={IsEmptyOrFalse} className={`get-strtd ${IsEmptyOrFalse? "no-click": "click"}`}>
                {loading? <div className="spinner"></div>: "Continue"}</button>
-            </form>
-            <div className="fgt-pwd">
+            </form> 
+            {/* <div className="fgt-pwd">
                 <a href="#">forgot password</a>
-            </div>
+            </div> */}
         </div>
     )
 

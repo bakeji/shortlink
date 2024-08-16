@@ -1,4 +1,5 @@
 "use client"
+import { DashboardContext } from '@/context/dash'
 import {
     Modal,
     ModalOverlay,
@@ -12,7 +13,7 @@ import {
     useDisclosure
   } from '@chakra-ui/react'
   import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 export default function QrCode(){
   
@@ -20,7 +21,10 @@ export default function QrCode(){
         const [link, setLink] = useState("")
         const [qrCode, setQrCode]= useState("")
         const [loading, setLoading]= useState(false)
-
+        const [error, setError] = useState('')
+        const {saveUrl} = useContext (DashboardContext)
+        const opt: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+      
 
         function handleChange(e: React.ChangeEvent<HTMLInputElement>){
             setLink(e.target.value)
@@ -29,8 +33,8 @@ export default function QrCode(){
          
             // create customized url function
         async function CreateQrCode():Promise<void>{
-            setLoading(true)
             if(link !== ""){
+              setLoading(true)
             const options = {
                 method: 'POST',
                 headers: {
@@ -44,10 +48,15 @@ export default function QrCode(){
             };
         
             try {
-                const response = await fetch('/api/qr/add',  options);
+                const response = await fetch('https://urlbae.com/api/qr/add',  options);
                 const data = await response.json()
                 setQrCode(data.link)
-                console.log(data);
+                saveUrl({
+                  originalUrl: link,
+                  shortenedUrl: qrCode,
+                  activity: "qrcode",
+                  date: new Date().toLocaleDateString('en-US', opt)
+              })
             } 
             catch (error: any) {
                 console.log(error.message);
@@ -56,13 +65,22 @@ export default function QrCode(){
                 setLoading(false)
             }
              }
+             else{
+              setError("Please enter a link")
+             }
        
     }
+    function clearInputFields(){
+      onClose()
+      setLink("")
+      setQrCode("")
+      setError("")
+  }
 
     function downloadQrCode(){
         const link = document.createElement("a");
         link.href = qrCode;
-        link.download = "qrCode";
+        link.download = "qrCode.png";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);  
@@ -76,13 +94,14 @@ export default function QrCode(){
           <>
             <Button onClick={onOpen}>  <Image src="/link1.png" alt="dashboard icon" width={16} height={20} />Qr Code</Button>
       
-            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={clearInputFields}>
               <ModalOverlay />
               <ModalContent>
                 <ModalHeader>Create a QR Code</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <div className="shrt-url">
+                    {link === "" && <p className='err'> {error} </p>}
                         <div>
                             <label>Enter the  destination Url</label>
                             <input
@@ -95,19 +114,16 @@ export default function QrCode(){
 
                        
 
-{qrCode !== "" &&
-<>
+                      {qrCode !== "" &&
+                      <>
                         <p> QR Code</p>
                    
                         <div className='nw-url-cont'>
 
                             <div className="">
-                                <img src={qrCode} alt="qr code" width={200} height={200} />
+                                <Image src={qrCode}  alt="qr code" width={100} height={100} />
                             </div>
                             
-                                <Button onClick={downloadQrCode} colorScheme='blue' mr={3}>
-                                    Download
-                                </Button>
                         </div>
                         </>
 }
@@ -117,13 +133,13 @@ export default function QrCode(){
                 </ModalBody>
       
                 <ModalFooter>
-                {qrCode === "" &&
-                  <Button disabled={link===""} onClick={CreateQrCode} colorScheme='blue' mr={3}>
-                    {loading? <Spinner />: "Create Qr Code"}
+              
+                  <Button onClick={qrCode ===""? CreateQrCode : downloadQrCode} colorScheme='blue' mr={3}>
+                    {loading? <Spinner />: qrCode===""? "Create Qr Code": "Download"}
                   </Button>
-}
+
           
-                  <Button colorScheme='red' onClick={onClose}>Cancel</Button>
+                  <Button colorScheme='red' onClick={clearInputFields}>Cancel</Button>
                 </ModalFooter>
               </ModalContent>
             </Modal>
