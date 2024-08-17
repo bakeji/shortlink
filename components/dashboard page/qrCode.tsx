@@ -48,7 +48,7 @@ export default function QrCode(){
             };
         
             try {
-                const response = await fetch('https://urlbae.com/api/qr/add',  options);
+                const response = await fetch('/api/qr/add',  options);
                 const data = await response.json()
                 setQrCode(data.link)
                 saveUrl({

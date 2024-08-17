@@ -66,7 +66,7 @@ export default function CustomizeUrl(){
             };
         
             try {
-                const response = await fetch(' https://urlbae.com/api/url/add',  options);
+                const response = await fetch('/api/url/add',  options);
                 const data = await response.json()
                 setNewUrl(data.shorturl)
                 saveUrl({
