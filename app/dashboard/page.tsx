@@ -99,7 +99,7 @@ useEffect(() => {
 useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) {
-        router.push('/login'); 
+        router.push('/log-in'); 
       }
     });
     return () => unsubscribe();
