@@ -88,8 +88,6 @@ export default function Form(){
                 </div>
                 <p>Already have an account? <a href="log-in">log in</a></p>
             <form onSubmit={createUser}>
-            <button className="gg"><Image src="/google.png" alt="google icon" width={24} height={24} />
-                 Continue with Google</button>
                <div className="name">
                     <label htmlFor="name">Full Name</label>
                     <input 

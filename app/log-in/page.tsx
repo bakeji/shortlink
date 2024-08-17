@@ -14,7 +14,7 @@ export default function SignUP(){
         <LogInContext.Provider value={{loading, setLoading, error, setError, success, setSuccess}} >
         <div className="sign-up">
             <div className="logo">
-                <Image src="/logo.png" alt="logo" width={200} height={200} />
+                <Image src="/cover.png" alt="logo" width={200} height={200} />
             </div>
 
             <LogInAlert />

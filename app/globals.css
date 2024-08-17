@@ -91,7 +91,7 @@ line-height: 120%; /* 24px */
     align-items: center;
     gap: 82px;
     justify-content: space-between;
-    margin: 0px auto;
+    margin: 40px auto 0;
 }
 .hero-sect h1{
 color: var(--Blue-100, #3B09CA);
@@ -169,11 +169,18 @@ font-weight: 600;
     box-sizing: border-box;
     height: 120px;
 }
-.prod1 h4{
+.prod1 h4, .prod1 .h4 button {
     color: #3B09CA;
     font-family: "Inter", sans-serif;
     font-size: 20px;
     font-weight: 600;
+    background: transparent;
+}
+.prod1 .h4 img{
+    display: none;
+}
+.form form{
+    margin-top: 20px;
 }
 .chs-div{
     width: 100%;
@@ -315,7 +322,7 @@ background: #C2AEFB;
 }
 .footer{
     display: flex;
-width: 80%;
+width: 90%;
 justify-content: space-between;
 align-items: flex-start;
 flex-shrink: 0;
@@ -343,6 +350,9 @@ li{
 }
 .ft1 p{
     text-align: center;
+}
+.side-nav{
+    display: none;
 }
 /* SIGN UP PAGE */
 .sign-up{
@@ -372,7 +382,7 @@ li{
     gap: 12px;
 }
 .frm-hd hr{
-    width: 69px;
+    width: 20%;
     border: 2px solid #3B09CA;
 }
 .frm-hd h1{
@@ -534,9 +544,10 @@ small{
     max-height: 100vh;
   } 
   .side-bar{
-    width: 185px;
+    width: 195px;
     height: 100vh;
-    /* padding: 0 20px; */
+    padding: 0 10px 10px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     background: #845CF7;
@@ -553,6 +564,13 @@ small{
     border: none;
     outline: none;
 
+}
+.lnk button{
+    width:100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content:left;
 }
 .dsh{
     margin-top: 40px;
@@ -753,6 +771,140 @@ line-height: 24px;
 }
 .err{
     color:red
+}
+.hamburger{
+    display: none;
+}
+.hamburger button{
+    background: transparent;
+    border: none;
+    outline: none; 
+}
+@media screen and (max-width:1024px){
+    button{
+        cursor:pointer;
+    }
+    header{
+        padding: 24px 50px;
+    }
+    .frm-hd{
+        gap: 8px;
+    }
+    .frm-hd h1{
+        font-size: 28px;
+    }
+    .header ul{
+        gap: 10px;
+    }
+    .lg-sign-up button{
+        padding: 8px 14px;
+    }
+    .chs-hd hr{
+        width:20%
+    }
+    .chs-hd{
+        gap: 10px;
+    }
+    .chs-hd h3{
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 400;
+    }
+
+}
+@media screen and (max-width:481px){
+   header .nav, header .lg-sign-up{
+       display: none;
+   }
+    .hamburger{
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 10px;
+    }
+    .hero-sect{
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    .prod-hd{
+        width: 80%;
+    }
+   .prod{
+       flex-direction: column;
+       gap: 10px;
+       align-items: center;
+   }
+   .prod1{
+    width: 80%;
+   }
+   .chs-hd{
+    width: 100%;
+   }
+   .rsns{
+    width:100%
+   }
+   .nl1{
+    width: 100%;
+    padding: 20px;
+   }
+   .footer{
+    gap: 20px;
+   }
+   footer{
+    padding: 20px;
+   }
+   .ft, .ft1{
+    width: 100%;
+   }
+.side-nav, .nav ul,.nv, .lg-sign-up{
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+.nav ul,.nv, .lg-sign-up{
+    display: flex;
+}
+
+.cls{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+.side-nav{
+        gap:25px;
+        height: 100%;
+        width: 50%; 
+        position: fixed; 
+        z-index: 1; 
+        top: 0; 
+        right: 0;
+        background-color: #E5E5E5; 
+        overflow-x: hidden;
+        padding: 0px 30px;
+        transition: 0.5s;
+
+}
+.show{
+    display: flex;
+}
+.hide{
+    display: none;
+}
+.s-form, .form{
+    width: 100%;
+}
+.form p, .fom p a {
+    font-size: 16px;
+}
+.logo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
 }
 
 

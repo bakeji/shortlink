@@ -45,9 +45,7 @@ export default function LogInFom(){
         .then((userCredential) => {
             const user = userCredential.user;
             setSuccess("log in sucessful")
-            setTimeout(()=>{
                 router.push("/dashboard")
-            }, 200)
         })
         .catch((error) => {
             setError(error.message)
@@ -65,8 +63,6 @@ export default function LogInFom(){
                 </div>
                 <p>Don’t have an account? <a href="sign-up">Sign up</a></p>
             <form onSubmit={SignIn} >
-            <button className="gg"><Image src="/google.png" alt="google icon" width={24} height={24} />Continue with Google</button>
-
                <div className="email">
                     <label htmlFor="email">Email Address</label>
                     <input

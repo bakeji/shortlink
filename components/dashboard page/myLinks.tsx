@@ -11,6 +11,7 @@ import {
     Button
   } from '@chakra-ui/react'
 import { useContext } from 'react'
+import Image from 'next/image'
 
  
 
@@ -31,13 +32,17 @@ export default function MyLinks(){
 
     return(
         <div className="my-link">
-            <Button onClick={onOpen}>My Links</Button>
+            <Button onClick={onOpen}> <Image src="/link1.png" alt="dashboard icon" width={16} height={20}/> My Links</Button>
             <Drawer onClose={onClose} isOpen={isOpen} size="md">
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
                     <DrawerHeader>MY Links</DrawerHeader>
                     <DrawerBody>
+                        { data.length === 0?
+
+                        <p>you have not shorten any link yet...</p>
+                        :
                         <div className="links">
                         {data.map((id:number, item:UrlData )=>(
                 
@@ -53,6 +58,7 @@ export default function MyLinks(){
                             </div>
                         ))}   
                         </div>
+}
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>

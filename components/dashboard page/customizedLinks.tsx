@@ -111,7 +111,7 @@ export default function CustomizeUrl(){
       
         return (
           <> 
-            <Button onClick={onOpen}>  <Image src="/link1.png" alt="dashboard icon" width={16} height={20} />Customize URL</Button>
+            <Button onClick={onOpen}>  <Image src="/link1.png" alt="dashboard icon" width={16} height={20} />Custom URL</Button>
       
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={clearInputFields}>
               <ModalOverlay />

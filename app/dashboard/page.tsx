@@ -4,7 +4,7 @@ import Overview from "@/components/dashboard page/overview"
 import SideBar from "@/components/dashboard page/sidebar"
 import TopNav from "@/components/dashboard page/topNav"
 import { app } from "../../firebaseConfig";
-import { getFirestore, collection, addDoc, doc, getDocs} from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, getDocs, getDoc} from "firebase/firestore";
 import "firebase/firestore";
 import { DashboardContext } from "@/context/dash"
 import { useEffect, useState } from "react";
@@ -20,12 +20,16 @@ export default function Dashboard(){
     }
     
     const [data, setData] = useState<UrlData[]> ([])
+    const [initials, setInitials] = useState<string | null>(null);
     const auth = getAuth();
-const currentUser = auth.currentUser;
-
-
-
+    const currentUser = auth.currentUser;
     const firestore = getFirestore(app);
+
+    function getInitials(fullName: string): string {
+        const nameParts = fullName.split(' ');
+        const initials = nameParts.map(part => part.charAt(0).toUpperCase()).join('');
+        return initials;
+    }
 
     // save urls to firestore
 async function saveUrl( data: {originalUrl: string, shortenedUrl: string, activity:string, date: string}):Promise<void> {
@@ -50,15 +54,12 @@ const getUrlsForUser = async () => {
         const UserId = currentUser.uid;
     try {
         const userDocRef = doc(firestore, 'users', UserId);
-
         const urlsCollectionRef = collection(userDocRef, 'urls');
-
         const urlsSnapshot = await getDocs(urlsCollectionRef);
-
-        // Map over the documents and get the data
         const urls = urlsSnapshot.docs.map(doc => ({
             ...doc.data()
         }));
+
             setData(urls)
     } catch (error) {
         console.error('Error getting URLs:', error);
@@ -68,12 +69,31 @@ const getUrlsForUser = async () => {
 }
 };
 
+// get user initials
+const getUserInitials = async () => {
+    if(currentUser){
+        const UserId = currentUser.uid;
+    try {
+        const userDocRef = doc(firestore, 'users', UserId);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data();
+         const  fullName: string = userData?.name
+            setInitials(getInitials(fullName));
+
+    } catch (error) {
+        console.error('Error getting user initials:', error);
+        throw error;
+    }
+}
+}
+
 useEffect(() => {
     getUrlsForUser()
+    getUserInitials()
 })
    
     return(
-        <DashboardContext.Provider value={{saveUrl, data, getUrlsForUser}}>
+        <DashboardContext.Provider value={{saveUrl, data, initials,  getUrlsForUser}}>
                 <div className="dashboard">
                     <SideBar />
 

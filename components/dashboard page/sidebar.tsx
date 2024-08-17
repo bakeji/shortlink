@@ -32,10 +32,6 @@ export default function SideBar(){
                         <QrCode/>
                     </div>
 
-                    <div className="lnk">
-                        <a href="/">
-                        <Image src="/link1.png" alt="dashboard icon" width={16} height={20} />Analytics</a>
-                    </div>
 
                     <div className="lnk">
                         <CustomizeUrl />

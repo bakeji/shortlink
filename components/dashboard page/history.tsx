@@ -29,6 +29,11 @@ export default function History(){
             
 
             <div className="link-hist">
+                {data.length === 0?
+            <p>you have not shorten any link yet</p>
+            :
+
+            <>
             {data.map((item:UrlData, index:number)=>(
                 <div key={index} className="hist">
                     <p>{item.data?.shortenedUrl}</p>
@@ -37,7 +42,11 @@ export default function History(){
                     <p>0</p>
                 </div>
 ))}
+</>
+}
             </div>
+
+            
 
         </div>
     )

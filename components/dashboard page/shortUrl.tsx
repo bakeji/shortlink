@@ -99,7 +99,7 @@ export default function ShortenUrl(){
       
         return (
           <>
-            <Button onClick={onOpen}>  <Image src="/link1.png" alt="dashboard icon" width={16} height={20} />Shorten URL</Button>
+            <Button onClick={onOpen}>  <Image src="/link1.png" alt="dashboard icon" width={16} height={20} />Short URL</Button>
       
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={clearInputFields}>
               <ModalOverlay />

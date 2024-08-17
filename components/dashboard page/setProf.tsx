@@ -1,11 +1,14 @@
 "use client"
 import Image from "next/image"
 import { getAuth, signOut } from "firebase/auth"
+import { useRouter } from "next/navigation";
 export default function SetProf(){
 
+  const router = useRouter()
   function logOut(){
     const auth = getAuth();
     signOut(auth).then(() => {
+      router.push("/log-in")
       console.log("Logged out")
     })
 
