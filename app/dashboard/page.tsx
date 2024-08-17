@@ -9,6 +9,8 @@ import "firebase/firestore";
 import { DashboardContext } from "@/context/dash"
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth"
+import { useRouter } from "next/router";
+import { get } from "http"
 
 
 export default function Dashboard(){
@@ -24,6 +26,7 @@ export default function Dashboard(){
     const auth = getAuth();
     const currentUser = auth.currentUser;
     const firestore = getFirestore(app);
+    const router = useRouter();
 
     function getInitials(fullName: string): string {
         const nameParts = fullName.split(' ');
@@ -90,7 +93,17 @@ const getUserInitials = async () => {
 useEffect(() => {
     getUrlsForUser()
     getUserInitials()
-})
+}, [currentUser]);
+
+
+useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        router.push('/login'); 
+      }
+    });
+    return () => unsubscribe();
+  }, [router, auth]);
    
     return(
         <DashboardContext.Provider value={{saveUrl, data, initials,  getUrlsForUser}}>
