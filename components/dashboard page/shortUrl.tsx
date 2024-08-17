@@ -72,7 +72,7 @@ export default function ShortenUrl(){
         };
     
         try {
-            const response = await fetch(' https://urlbae.com/api/url/add',  options);
+            const response = await fetch('https://urlbae.com/api/url/add',  options);
             const data = await response.json()
             setShortUrl(data.shorturl)
             saveUrl({
