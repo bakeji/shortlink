@@ -9,7 +9,7 @@ import "firebase/firestore";
 import { DashboardContext } from "@/context/dash"
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth"
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { get } from "http"
 
 
