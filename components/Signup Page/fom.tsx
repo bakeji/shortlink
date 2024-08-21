@@ -121,7 +121,7 @@ export default function Form(){
                          required
                          value={formData.password}
                           />
-                       <button onClick={togglePassword}>
+                       <button type="button" onClick={togglePassword}>
                          <Image src={showPassword? "/Eye.png" : "/EyeSlash.png" } alt="google icon" width={24} height={24} /></button>
                     </div>
                     
