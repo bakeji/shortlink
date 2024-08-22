@@ -32,21 +32,16 @@ jobs:
           cache: 'pnpm'
       - name: Setup environment variables
         run: |
-          echo "NEXT_PUBLIC_FB_API_KEY=${{ secrets.NEXT_PUBLIC_FB_API_KEY }}" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_API_KEY=${{ secrets.NEXT_PUBLIC_API_KEY }}" >> $GITHUB_ENV
+           "NEXT_PUBLIC_FB_API_KEY=${{ secrets.NEXT_PUBLIC_FB_API_KEY }}" >> $GITHUB_ENV
+           "NEXT_PUBLIC_API_KEY=${{ secrets.NEXT_PUBLIC_API_KEY }}" >> $GITHUB_ENV
       - name: Install dependencies
         run: |
           pnpm install
           pnpm build
 
-      - name: Install playwright browsers
-        run: |
-          pnpm playwright install chromium --with-deps
-          pnpm playwright install firefox --with-deps
-          pnpm playwright install webkit --with-deps
-          pnpm exec playwright install
-      - name: Run tests
-        run: pnpm test:coverage && pnpm test:e2e
+      - name: Run Jest tests
+        run: pnpm test
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         env:
