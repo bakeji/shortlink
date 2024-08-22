@@ -30,15 +30,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
-      - name: Install dependencies
-        run: |
-          pnpm install
-          pnpm build
-
       - name: Setup environment variables
         run: |
           echo "NEXT_PUBLIC_FB_API_KEY=${{ secrets.NEXT_PUBLIC_FB_API_KEY }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_API_KEY=${{ secrets.NEXT_PUBLIC_API_KEY }}" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: |
+          pnpm install
+          pnpm build
 
       - name: Install playwright browsers
         run: |
