@@ -3,7 +3,8 @@ import LogIn from "@/app/log-in/page";
 import { render, screen } from "@testing-library/react";
 import mockRouter from 'next-router-mock';
 
-jest.mock("next/router", () => require("next-router-mock"));
+
+jest.mock("next/navigation", () => require("next-router-mock"));
 
 describe("LogIn", () => {
   beforeEach(() => {

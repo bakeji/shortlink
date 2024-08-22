@@ -16,7 +16,7 @@ export default function Form(){
         name: string
         password: string
       }
-     
+      const router = useRouter()
       const {loading, setLoading, setError, setSuccess} =useContext(SignUpContext)
     const [showPassword, setShowPassword] =useState(false)
     const [formData, setFormData]= useState<FormDetails>({
@@ -29,7 +29,6 @@ export default function Form(){
 
     const CreateUser =(event:React.FormEvent<HTMLFormElement>)=>{
         setLoading(true)
-        const router = useRouter()
         let auth = getAuth(app)
         const db= getFirestore(app)
         event.preventDefault()

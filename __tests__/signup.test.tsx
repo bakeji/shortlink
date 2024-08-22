@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import mockRouter from 'next-router-mock';
 import SignUp from '@/app/sign-up/page';
 
-jest.mock("next/router", () => require("next-router-mock"));
+jest.mock("next/navigation", () => require("next-router-mock"));
 
 describe("signup", () => {
   beforeEach(() => {

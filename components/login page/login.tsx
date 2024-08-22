@@ -11,6 +11,7 @@ export default function LogInFom(){
         email: "",
         password: ""
     }
+    const router= useRouter()
     const {loading, setLoading,  setError,  setSuccess} = useContext(LogInContext)
     const [showPassword, setShowPassword] =useState(false)
     const [usersDetails, setUsersDetails] = useState<users>({
@@ -38,13 +39,13 @@ export default function LogInFom(){
 
     const SignIn =(event:React.FormEvent<HTMLFormElement>)=>{
         setLoading(true)
-        const router= useRouter()
         event.preventDefault()
         const auth = getAuth(app);
         signInWithEmailAndPassword(auth, usersDetails.email, usersDetails.password)
         .then((userCredential) => {
             const user = userCredential.user;
             setSuccess("log in sucessful")
+              
                 router.push("/dashboard")
         })
         .catch((error) => {
@@ -62,7 +63,7 @@ export default function LogInFom(){
                     <hr />
                 </div>
                 <p>Don’t have an account? <a href="sign-up">Sign up</a></p>
-            <form onSubmit={SignIn} >
+            <form onSubmit={SignIn}>
                <div className="email">
                     <label  htmlFor="email">Email Address</label>
                     <input 
