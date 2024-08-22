@@ -35,10 +35,10 @@ export default function LogInFom(){
         Object.values(usersDetails).some(
             (value) => !value)
 
-    const router= useRouter()
 
     const SignIn =(event:React.FormEvent<HTMLFormElement>)=>{
         setLoading(true)
+        const router= useRouter()
         event.preventDefault()
         const auth = getAuth(app);
         signInWithEmailAndPassword(auth, usersDetails.email, usersDetails.password)
@@ -64,8 +64,9 @@ export default function LogInFom(){
                 <p>Don’t have an account? <a href="sign-up">Sign up</a></p>
             <form onSubmit={SignIn} >
                <div className="email">
-                    <label htmlFor="email">Email Address</label>
-                    <input
+                    <label  htmlFor="email">Email Address</label>
+                    <input 
+                     data-testid="email"
                      type="email" 
                      name="email" 
                      id="email"
@@ -79,6 +80,7 @@ export default function LogInFom(){
                     <label htmlFor="pwd">Password</label>
                     <div className="password">
                         <input
+                            data-testid="password"
                          type={showPassword? "text" : "password"}
                          name="password"
                           id="pwd" 
@@ -93,7 +95,7 @@ export default function LogInFom(){
                     
                </div>
 
-               <button disabled={IsEmptyOrFalse} className={`get-strtd ${IsEmptyOrFalse? "no-click": "click"}`}>
+               <button  data-testid= "submit" disabled={IsEmptyOrFalse} className={`get-strtd ${IsEmptyOrFalse? "no-click": "click"}`}>
                {loading? <div className="spinner"></div>: "Continue"}</button>
             </form> 
             {/* <div className="fgt-pwd">

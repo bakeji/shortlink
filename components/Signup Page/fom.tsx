@@ -6,8 +6,9 @@ import {app} from "../../firebaseConfig";
 import { doc, setDoc,} from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import "firebase/firestore";
-import { SignUpContext } from "@/context/signup";
 import { useRouter } from "next/navigation";
+import { SignUpContext } from "@/context/signup";
+
 export default function Form(){
 
     interface FormDetails {
@@ -25,10 +26,10 @@ export default function Form(){
 
     })
     // create new user
-    const router = useRouter()
 
-    const createUser =(event:React.FormEvent<HTMLFormElement>)=>{
+    const CreateUser =(event:React.FormEvent<HTMLFormElement>)=>{
         setLoading(true)
+        const router = useRouter()
         let auth = getAuth(app)
         const db= getFirestore(app)
         event.preventDefault()
@@ -87,11 +88,12 @@ export default function Form(){
                     <hr />
                 </div>
                 <p>Already have an account? <a href="log-in">log in</a></p>
-            <form onSubmit={createUser}>
+            <form onSubmit={CreateUser}>
                <div className="name">
                     <label htmlFor="name">Full Name</label>
                     <input 
                     type="text" 
+                    data-testid="name"
                     name="name" 
                     id="name" 
                     onChange={handleChange}
@@ -104,6 +106,7 @@ export default function Form(){
                     <input 
                     type="email"
                      name="email"
+                     data-testid="email"
                       id="email"
                       onChange={handleChange}
                       required
@@ -116,6 +119,7 @@ export default function Form(){
                         <input 
                         type={showPassword? "text": "password"} 
                         name="password"
+                        data-testid="password"
                          id="pwd"
                          onChange={handleChange}
                          required
@@ -127,12 +131,12 @@ export default function Form(){
                     
                </div>
 
-               <button disabled={IsEmptyOrFalse}
+               <button data-testid= "submit" disabled={IsEmptyOrFalse}
                className={`get-strtd ${IsEmptyOrFalse?  "no-click": "click"}`}>
                                     {loading? <div className="spinner"></div>: "Get Started" }</button>
 
             </form>
-            <small>By signing up, you are automatically agreeing to Comparely’s 
+            <small>By  signing up, you are automatically agreeing to Comparely’s 
             Terms of Use and Privacy Policy.</small>
 
         </div>

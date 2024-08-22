@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react"
 import { LogInContext } from "@/context/login"
 import LogInAlert from "@/components/login page/alrt"
 
-export default function SignUP(){
+export default function LogIn(){
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")

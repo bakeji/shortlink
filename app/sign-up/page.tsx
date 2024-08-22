@@ -4,7 +4,7 @@ import Form from "@/components/Signup Page/fom"
 import Image from "next/image"
 import { SignUpContext } from "@/context/signup"
 import SignUpAlert from "@/components/Signup Page/alert"
-export default function SignUP(){
+export default function SignUp(){
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")

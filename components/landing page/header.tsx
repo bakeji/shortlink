@@ -23,16 +23,16 @@ export default function Header() {
 
                 <nav className='nav'>
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a  data-testid="home" href="/">Home</a></li>
+                        <li><a  data-testid="About" href="#about">About</a></li>
+                        <li><a  data-testid= "features" href="#features">Features</a></li>
+                        <li><a  data-testid= "contact" href="#contact">Contact</a></li>
                     </ul>
                 </nav>
 
                 <div className="lg-sign-up">
-                    <button><a href="/log-in">Log in</a></button>
-                    <button><a href="/sign-up">Sign Up</a></button>
+                    <button><a  data-testid="log-in" href="/log-in">Log in</a></button>
+                    <button><a  data-testid="sign-up" href="/sign-up">Sign Up</a></button>
                 </div>
             </div>
         </header>

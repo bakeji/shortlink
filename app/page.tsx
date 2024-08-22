@@ -10,7 +10,7 @@ import SideNav from '@/components/landing page/sidenav'
 import { useState } from 'react'
 import { PageContext } from '@/context/landPg'
 
- export default function LadingPage(){
+ export default function LandingPage(){
   const [show, setShow] = useState(false)
 
   return(
