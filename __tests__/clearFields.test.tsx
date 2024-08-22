@@ -2,16 +2,16 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 import ShortenUrl from '@/components/dashboard page/shortUrl';
 
-describe('ShortenUrl Component', () => {
+describe('clear input field', () => {
 
   it('should clear input fields and close the modal when the Cancel button is clicked', () => {
     render(<ShortenUrl />);
     
-    // Open the modal first
+    // Open the modal to have access to the button
     const openModalButton = screen.getByRole('button', { name: /short url/i });
     fireEvent.click(openModalButton);
 
-    // Mock filling the input and setting the short URL
+    // filling the input and setting the short URL
     fireEvent.change(screen.getByPlaceholderText('Enter URL'), {
       target: { value: 'http://long.url' },
     });

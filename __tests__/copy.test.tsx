@@ -9,7 +9,7 @@ Object.assign(navigator, {
     },
   });
   
-  describe('ShortenUrl Component', () => {
+  describe('copy button', () => {
     it('should copy the short URL to clipboard when the copy button is clicked', () => {
       render(<ShortenUrl />);
 
